@@ -1,4 +1,6 @@
-parseFile()
+#!/usr/bin/env ruby
+
+
 def parseFile()
 	#local_filename = "" #lexeme file
 	#lexeme = []
@@ -9,8 +11,9 @@ def parseFile()
   	array_in_line = Array.new
 
   	array_in_line = ["IDENTIFIER", "ASSIGNOP", "IDENTIFIER", "ADD", "IDENTIFIER"]
-  	
+  	puts array_in_line
   	evaluate_line(array_in_line)
+
  	#end
  end
 
@@ -18,7 +21,12 @@ def parseFile()
 
  def evaluate_line(array_in_line)
  	$lexeme = Array.new
- 	$lexeme = array_in_line.reverse
+ 	$lexeme = array_in_line.reverse!
+ 	puts "Evaluating The Line"
+ 	puts $lexeme
+
+ 	
+
 
  	def nextToken()
  		$lexeme.peek
@@ -79,3 +87,4 @@ def parseFile()
 		puts "Exit<factor>"
 	end
 	end
+	parseFile()
