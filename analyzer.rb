@@ -112,7 +112,7 @@ def if_statement()
 				end
 
 				# Exit part!
-				if evaluateNextToken("ENDIF")
+				if evaluateNextToken("END_IF")
 
 				else
 					error("EXPECTING END_IF")
@@ -129,6 +129,41 @@ def if_statement()
 		error("The first token is not if")
 	end
 end
+
+def forloop()
+	if (evaluateNextToken("FORLOOP"))
+		if evaluateNextToken("OPENPAREN")
+				statement()
+			
+				if evaluateNextToken(comp_operator)
+					statement()
+				else
+
+				puts "Missing comparison operator"
+				end
+
+				if evaluateNextToken("ADD|SUBTRACT|MULTIPLY|DIVIDE")
+					statement()
+				end
+
+
+				if !(evaluateNextToken("CLOSEPAREN"))
+					error("Missing Close Parenthesis")	
+				end
+				statement()
+				if !(evaluateNextToken("ENDLOOP"))
+					error("Missing End Loop")
+				end
+		else
+			error("Missing Open Parenthesis") #Right Hand Side Doesn't Match
+		end
+
+	else
+		error("The first token is not for")
+	end
+
+end
+
 
 
 
@@ -150,9 +185,13 @@ def parseFile()
 	  	array_in_line_with_division = ["IDENTIFIER", "ASSIGNOP", "IDENTIFIER","MULTIPLY","OPENPAREN",
 	  		"IDENTIFIER", "DIVIDE", "IDENTIFIER","CLOSEPAREN" ,"END_STMNT"]
 	  		evaluate_line(array_in_line_with_division)
-	  		array_in_line_with_if = ["IF_STMNT", "OPENPAREN","IDENTIFIER", "ADD" , "IDENTIFIER", "LESSTHAN", "IDENTIFIER","CLOSEPAREN","IDENTIFIER", "ASSIGNOP", "IDENTIFIER", "ADD", "IDENTIFIER", "END_STMNT", "END_IF" ]
-	  		evaluate_line(array_in_line_with_if)
-	 	#end
+	  	array_in_line_with_if = ["IF_STMNT", "OPENPAREN","IDENTIFIER", "ADD" , "IDENTIFIER", "LESSTHAN", "IDENTIFIER","CLOSEPAREN","IDENTIFIER", "ASSIGNOP", "IDENTIFIER", "ADD", "IDENTIFIER", "END_STMNT", "END_IF" ]
+	  	evaluate_line(array_in_line_with_if)
+
+
+	  	array_in_line_with_for = ["FORLOOP", "OPENPAREN", "IDENTIFIER", "END_STMNT", "LESSTHAN", "IDENTIFIER", "ADD", "IDENTIFIER", "END_STMNT",
+	  	 "ADD", "IDENTIFIER", "DIVIDE", "IDENTIFIER", "END_STMNT", "CLOSEPAREN", "IDENTIFIER", "ASSIGNOP", "IDENTIFIER", "SUBTRACT", "IDENTIFIER", "END_STMNT", "ENDLOOP"]
+	 	evaluate_line(array_in_line_with_for)
 	 end
 
 
@@ -168,6 +207,7 @@ def parseFile()
 	 	if first =~ /IF_STMNT/
 	 		if_statement()
 	 	elsif first =~ /FORLOOP/
+	 		forloop()
 	 	else
 	 		statement()
 	 	end
