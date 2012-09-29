@@ -68,7 +68,7 @@ def evaluateNextToken(condition)
 	def boolean_expr()
 		puts "Enter<boolean_expr>"
 		expr()
-		if evaluateNextToken(operator())
+		if evaluateNextToken(comp_operator())
 			expr()		
 		else
 			error("Expecting a boolean comparison!")
@@ -150,6 +150,8 @@ def parseFile()
 	  	array_in_line_with_division = ["IDENTIFIER", "ASSIGNOP", "IDENTIFIER","MULTIPLY","OPENPAREN",
 	  		"IDENTIFIER", "DIVIDE", "IDENTIFIER","CLOSEPAREN" ,"END_STMNT"]
 	  		evaluate_line(array_in_line_with_division)
+	  		array_in_line_with_if = ["IF_STMNT", "OPENPAREN","IDENTIFIER", "ADD" , "IDENTIFIER", "LESSTHAN", "IDENTIFIER","CLOSEPAREN","IDENTIFIER", "ASSIGNOP", "IDENTIFIER", "ADD", "IDENTIFIER", "END_STMNT", "END_IF" ]
+	  		evaluate_line(array_in_line_with_if)
 	 	#end
 	 end
 
@@ -162,8 +164,13 @@ def parseFile()
 	 	puts $lexeme.join(" ")
 
 	 	$lexeme = array_in_line.reverse!
-	 	statement()
-
+	 	first = $lexeme.last
+	 	if first =~ /IF_STMNT/
+	 		if_statement()
+	 	elsif first =~ /FORLOOP/
+	 	else
+	 		statement()
+	 	end
 
 	 	puts "Finished Evaluating\n"
 	 end
