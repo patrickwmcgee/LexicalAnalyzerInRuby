@@ -212,4 +212,24 @@ def evaluate_line(array_in_line)
 
 	puts "Finished Evaluating\n"
 end
-parseFile()
+def file_to_array(file_path)
+	array = []
+	f = File.open(file_path, 'r')
+	f.each_line do |line|
+		array = line.split(" ")
+	end
+	array
+end
+
+
+def program()
+	paths = ["C:\\Programming\\LexicalAnalyzerInRuby\\for_tokens.txt" , "C:\\Programming\\LexicalAnalyzerInRuby\\if_tokens.txt" , "C:\\Programming\\LexicalAnalyzerInRuby\\bad_if_tokens.txt"]
+
+	paths.each do |path|
+		puts path
+		evaluate_line(file_to_array(path))
+		puts "\n\n"
+	end	
+end
+program()
+#parseFile()
